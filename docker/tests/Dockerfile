@@ -3,9 +3,10 @@ FROM mcr.microsoft.com/playwright/java:v1.59.0-jammy
 WORKDIR /app
 
 # SSL FIX (ВАЖНО)
-RUN apt-get update && \
-    apt-get install -y openjdk-21-jdk ca-certificates curl openssl && \
-    update-ca-certificates
+RUN apt-get update --fix-missing && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates curl openssl && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_TOOL_OPTIONS="-Dhttps.protocols=TLSv1.2,TLSv1.3"
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
