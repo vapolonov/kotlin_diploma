@@ -9,14 +9,19 @@ RUN apt-get update -o Acquire::Retries=5 && \
     curl \
     openssl \
     openjdk-21-jdk && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    # Обновление сертификатов
+    update-ca-certificates -f
 
 # Настройка JAVA_HOME для JDK 21
 ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
 
-# SSL FIX для Java
-ENV JAVA_TOOL_OPTIONS="-Dhttps.protocols=TLSv1.2,TLSv1.3"
+# SSL FIX для Java - добавим больше протоколов
+ENV JAVA_TOOL_OPTIONS="-Dhttps.protocols=TLSv1.1,TLSv1.2,TLSv1.3 -Djava.security.egd=file:/dev/./urandom"
+
+# Дополнительные опции Gradle
+ENV GRADLE_OPTS="-Dorg.gradle.internal.http.socketTimeout=120000 -Dorg.gradle.internal.http.connectionTimeout=120000"
 
 COPY gradlew ./
 COPY gradle ./gradle
@@ -28,9 +33,10 @@ RUN chmod +x gradlew
 # проверка Gradle + Java
 RUN ./gradlew --version
 
-# зависимости (лучше через cache-friendly слой)
-RUN ./gradlew dependencies --no-daemon
+# Запуск с отключенным SSL проверкой (только для сборки, не для продакшена!)
+RUN ./gradlew dependencies --no-daemon -Dhttp.socketTimeout=60000 -Dhttp.connectionTimeout=60000
 
 COPY src ./src
 
-RUN ./gradlew test --no-daemon
+# Запуск тестов
+RUN ./gradlew test --no-daemon --no-build-cache --stacktrace
