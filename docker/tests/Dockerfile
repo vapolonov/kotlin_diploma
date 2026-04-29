@@ -4,10 +4,12 @@ WORKDIR /app
 
 # SSL FIX (ВАЖНО)
 RUN apt-get update && \
-    apt-get install -y ca-certificates curl openssl && \
+    apt-get install -y openjdk-21-jdk ca-certificates curl openssl && \
     update-ca-certificates
 
 ENV JAVA_TOOL_OPTIONS="-Dhttps.protocols=TLSv1.2,TLSv1.3"
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+ENV PATH="$JAVA_HOME/bin:$PATH"
 
 COPY gradlew ./
 COPY gradle ./gradle
