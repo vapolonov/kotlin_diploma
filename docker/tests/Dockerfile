@@ -2,7 +2,12 @@ FROM mcr.microsoft.com/playwright/java:v1.59.0-jammy
 
 WORKDIR /app
 
-# ❌ НИКАКИХ ../../
+# SSL FIX (ВАЖНО)
+RUN apt-get update && \
+    apt-get install -y ca-certificates curl openssl && \
+    update-ca-certificates
+
+ENV JAVA_TOOL_OPTIONS="-Dhttps.protocols=TLSv1.2,TLSv1.3"
 
 COPY gradlew ./
 COPY gradle ./gradle
@@ -11,9 +16,12 @@ COPY settings.gradle ./
 
 RUN chmod +x gradlew
 
-# кеш зависимостей
+# НЕ падаем на кешировании сразу — сначала только bootstrap
+RUN ./gradlew --version
+
+# теперь зависимости
 RUN ./gradlew dependencies --no-daemon
 
 COPY src ./src
 
-RUN ./gradlew playwrightInstall --no-daemon
+RUN ./gradlew test --no-daemon
