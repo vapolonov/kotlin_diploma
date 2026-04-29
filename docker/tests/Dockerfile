@@ -2,12 +2,20 @@ FROM mcr.microsoft.com/playwright/java:v1.59.0-jammy
 
 WORKDIR /app
 
-# SSL FIX
+# Установка JDK 21 и SSL FIX
 RUN apt-get update -o Acquire::Retries=5 && \
     apt-get install -y --no-install-recommends \
-    ca-certificates curl openssl && \
+    ca-certificates \
+    curl \
+    openssl \
+    openjdk-21-jdk && \
     rm -rf /var/lib/apt/lists/*
 
+# Настройка JAVA_HOME для JDK 21
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# SSL FIX для Java
 ENV JAVA_TOOL_OPTIONS="-Dhttps.protocols=TLSv1.2,TLSv1.3"
 
 COPY gradlew ./
