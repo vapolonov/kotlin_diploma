@@ -22,15 +22,14 @@ class OrderPopup : AbsBaseComponent<OrderPopup>(
   }
 
 
-  @Step("Получить статус заказа")
+//  @Step("Получить статус заказа")
   fun getOrderStatus(): String {
     return orderStatus.textContent().toStatus()
   }
 
-  @Step("Закрыть попап заказа")
+//  @Step("Закрыть попап заказа")
   fun closeOrderPopup(): OrderPopup {
     orderCloseBtn.click()
     return this
   }
 }
-

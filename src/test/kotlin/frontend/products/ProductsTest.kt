@@ -24,7 +24,7 @@ class ProductsTest {
     val title = ProductsPage()
       .getTitle()
 
-    title shouldBe "All Products"
+    title shouldBe "All Product"
   }
 
   @Test

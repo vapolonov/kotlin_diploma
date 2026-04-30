@@ -5,14 +5,22 @@ import backend.controllers.Controllers
 import backend.helpers.AuthorizationHelper
 import backend.helpers.GarbageCollector
 import backend.helpers.ProductsHelper
+import com.microsoft.playwright.Page
+import com.microsoft.playwright.Tracing
 import database.JDBCHelper
+import general.browser.PageManager
 import general.config.Config
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
+import io.qameta.allure.Attachment
+import org.junit.jupiter.api.extension.AfterEachCallback
+import org.junit.jupiter.api.extension.ExtensionContext
+import org.junit.jupiter.api.extension.TestWatcher
 import org.junit.platform.engine.TestExecutionResult
 import org.junit.platform.launcher.TestExecutionListener
 import org.junit.platform.launcher.TestIdentifier
 import org.junit.platform.launcher.TestPlan
+import java.io.File
 
 class TestListener : Controllers(), TestExecutionListener {
   val authHelper = AuthorizationHelper()
