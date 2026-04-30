@@ -14,37 +14,42 @@ abstract class AbsBasePage<T : AbsBasePage<T>> {
   protected open fun endpoint(): String = ""
 
   @Suppress("UNCHECKED_CAST")
-  fun open(): T = apply {
+  fun open(): T {
     page.navigate(endpoint())
     page.waitForLoadState(LoadState.DOMCONTENTLOADED)
-  } as T
+    return this as T
+  }
 
   @Suppress("UNCHECKED_CAST")
-  fun waitForVisible(locator: Locator): T = apply {
+  fun waitForVisible(locator: Locator): T {
     locator.waitFor(
       Locator.WaitForOptions()
         .setState(WaitForSelectorState.VISIBLE)
     )
-  } as T
+    return this as T
+  }
 
   @Suppress("UNCHECKED_CAST")
-  fun waitForHidden(locator: Locator): T = apply {
+  fun waitForHidden(locator: Locator): T {
     locator.waitFor(
       Locator.WaitForOptions()
         .setState(WaitForSelectorState.HIDDEN)
     )
-  } as T
+    return this as T
+  }
 
   @Suppress("UNCHECKED_CAST")
-  fun waitForDetach(locator: Locator): T = apply {
+  fun waitForDetach(locator: Locator): T {
     locator.waitFor(
       Locator.WaitForOptions()
         .setState(WaitForSelectorState.DETACHED)
     )
-  } as T
+    return this as T
+  }
 
   @Suppress("UNCHECKED_CAST")
-  fun implicitWait(timeoutMs: Double = 3000.0): T = apply {
+  fun implicitWait(timeoutMs: Double = 3000.0): T {
     page.waitForTimeout(timeoutMs)
-  } as T
+    return this as T
+  }
 }

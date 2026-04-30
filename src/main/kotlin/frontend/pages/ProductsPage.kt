@@ -16,10 +16,6 @@ class ProductsPage : AbsBasePage<ProductsPage>() {
   private val listItems: Locator get() = page.locator(getByTestGroupId("product-card"))
   private val listProducts get() = ProductsItems().getItems()
 
-  fun openProducts(): ProductsPage = apply {
-    super.open()
-  }
-
   @Step("Получить название страницы продуктов")
   fun getTitle(): String {
     txtTitle.shouldBeVisible()

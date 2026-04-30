@@ -14,14 +14,16 @@ class AuthPopup : AbsBaseComponent<AuthPopup>(
   private val txtError: Locator get() = root.getByTestId("login-error")
 
   @Step("Заполнить форму Login")
-  fun fillLoginForm(email: String, pass: String): AuthPopup = apply {
+  fun fillLoginForm(email: String, pass: String): AuthPopup {
     emailInput.fill(email)
     passwordInput.fill(pass)
+    return this
   }
 
   @Step("Нажать на кнопку Login")
-  fun submitLogin(): AuthPopup = apply {
+  fun submitLogin(): AuthPopup {
     loginBtn.click()
+    return this
   }
 
   @Step("Получить текст ошибки")

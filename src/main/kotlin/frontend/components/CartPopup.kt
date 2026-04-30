@@ -18,7 +18,8 @@ class CartPopup : AbsBaseComponent<CartPopup>(
   }
 
   @Step("Создать заказ")
-  fun createOrder(): CartPopup = apply {
+  fun createOrder(): CartPopup {
     checkout.click()
+    return this
   }
 }

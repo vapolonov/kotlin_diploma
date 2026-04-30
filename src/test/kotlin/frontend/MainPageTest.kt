@@ -30,5 +30,4 @@ class MainPageTest {
 
     listLinks.shouldContainAll(links)
   }
-
 }

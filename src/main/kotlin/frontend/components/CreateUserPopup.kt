@@ -2,7 +2,6 @@ package frontend.components
 
 import com.microsoft.playwright.Locator
 import general.browser.PageManager
-import io.kotest.matchers.shouldBe
 import io.qameta.allure.Step
 
 class CreateUserPopup : AbsBaseComponent<CreateUserPopup>(PageManager.get().locator(".dialog"))
@@ -14,15 +13,17 @@ class CreateUserPopup : AbsBaseComponent<CreateUserPopup>(PageManager.get().loca
   private val errorMsg: Locator get() = root.getByTestId("create-error")
 
   @Step("Заполнить форму Create Account")
-  fun fillCreateAccountForm(username: String, email: String, pass: String): CreateUserPopup = apply {
+  fun fillCreateAccountForm(username: String, email: String, pass: String): CreateUserPopup {
     usernameInput.fill(username)
     emailInput.fill(email)
     passwordInput.fill(pass)
+    return this
   }
 
   @Step("Нажать на кнопку Create User")
-  fun submitCreateUser(): CreateUserPopup  = apply {
+  fun submitCreateUser(): CreateUserPopup {
     createUserBtn.click()
+    return this
   }
 
   @Step("Нажать на кнопку Create User")

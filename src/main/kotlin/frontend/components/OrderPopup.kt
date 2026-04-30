@@ -28,8 +28,9 @@ class OrderPopup : AbsBaseComponent<OrderPopup>(
   }
 
   @Step("Закрыть попап заказа")
-  fun closeOrderPopup(): OrderPopup = apply {
+  fun closeOrderPopup(): OrderPopup {
     orderCloseBtn.click()
+    return this
   }
 }
 

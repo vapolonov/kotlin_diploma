@@ -21,12 +21,9 @@ class MainPage : AbsBasePage<MainPage>() {
   private val loginLink: Locator get() = page.getByTestId("create-login")
   private val listPopularProducts: Locator get() = page.locator(getByTestGroupId("product-card"))
 
-  fun openMain(): MainPage = apply {
-    super.open()
-  }
-
-  fun checkPageLoaded(): MainPage = apply {
+  fun checkPageLoaded(): MainPage {
     waitForVisible(mainTitle)
+    return this
   }
 
   @Step("Получить список популярных товаров")
@@ -36,8 +33,9 @@ class MainPage : AbsBasePage<MainPage>() {
   }
 
   @Step("Проверить количество популярных товаров на главной")
-  fun checkNumberOfPopularProducts(): MainPage = apply {
+  fun checkNumberOfPopularProducts(): MainPage {
     listPopularProducts.count() shouldBeGreaterThan 0
+    return this
   }
 
   @Step("Перейти к компоненту Header")
@@ -46,14 +44,16 @@ class MainPage : AbsBasePage<MainPage>() {
   }
 
   @Step("Открыть форму Login")
-  fun openLoginForm(): MainPage = apply {
+  fun openLoginForm(): MainPage {
     joinBtn.click()
     loginLink.click()
+    return this
   }
 
   @Step("Открыть форму Create Account")
-  fun openCreateAccountForm(): MainPage = apply {
+  fun openCreateAccountForm(): MainPage {
     joinBtn.click()
+    return this
   }
 
   @Step("Перейти к компоненту AuthPopup")

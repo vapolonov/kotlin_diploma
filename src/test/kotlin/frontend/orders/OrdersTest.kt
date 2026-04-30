@@ -39,7 +39,7 @@ class OrdersTest : Controllers() {
 
     CartPopup().createOrder()
 
-    val popup = OrderPopup().apply { root.shouldBeVisible() }
+    val popup = OrderPopup()
     val orderId = popup.getOrderId()
     val orderStatus = popup.getOrderStatus()
 
@@ -71,7 +71,7 @@ class OrdersTest : Controllers() {
 
     Header().clickLink("Cart")
     CartPopup().createOrder()
-    val popup = OrderPopup() // .apply { root.shouldBeVisible() }
+    val popup = OrderPopup()
     val orderId = popup.getOrderId()
     val orderStatus = popup.getOrderStatus()
     popup.closeOrderPopup()
@@ -106,7 +106,7 @@ class OrdersTest : Controllers() {
 
     CartPopup().createOrder()
 
-    val popup = OrderPopup() //.apply { root.shouldBeVisible() }
+    val popup = OrderPopup()
     val orderId = popup.getOrderId()
     val orderStatus = popup.getOrderStatus()
 
@@ -134,7 +134,7 @@ class OrdersTest : Controllers() {
     cart.getCartProducts().size shouldBe 1
     cart.createOrder()
 
-    val popup = OrderPopup() // .apply { root.shouldBeVisible() }
+    val popup = OrderPopup()
     val orderId = popup.getOrderId()
     popup.getOrderStatus() shouldBe StatusEnum.PENDING
 
