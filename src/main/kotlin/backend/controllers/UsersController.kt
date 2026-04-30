@@ -39,4 +39,9 @@ class UsersController : Endpoints() {
   fun getAllUsers(token: String = authHelper.getAdminToken(), offset: Int = 0, limit: Int = 50): Response<List<UserResponse>> {
     return usersApi.getAllUsers(token, offset, limit).execute()
   }
+
+  @Step("Get user")
+  fun getUserMe(token: String = authHelper.getAdminToken()): Response<UserResponse> {
+    return usersApi.getUserMe(token).execute()
+  }
 }

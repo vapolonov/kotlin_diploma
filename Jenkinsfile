@@ -10,7 +10,7 @@ pipeline {
   }
 
   environment {
-    IMAGE_NAME = 'tests'
+    IMAGE_NAME = 'playwright-tests'
   }
 
   stages {
@@ -23,7 +23,8 @@ pipeline {
 
     stage('Build Test Image') {
       steps {
-        sh 'docker build -t $IMAGE_NAME -f docker/tests/Dockerfile .'
+//         sh 'docker build -t $IMAGE_NAME -f docker/tests/Dockerfile .'
+        sh 'docker build -t $IMAGE_NAME -f Dockerfile .'
       }
     }
 

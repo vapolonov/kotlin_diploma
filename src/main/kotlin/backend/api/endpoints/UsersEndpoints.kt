@@ -23,6 +23,11 @@ interface UsersEndpoints {
     @Path("id") id: Int
   ): Call<UserResponse>
 
+  @GET("/users/me}")
+  fun getUserMe(
+    @Header(Headers.AUTHORIZATION) token: String,
+  ): Call<UserResponse>
+
   @POST("users/create")
   fun postUserCreate(@Body body: CreateUserRequest) : Call<UserResponse>
 

@@ -1,20 +1,21 @@
 version: '3.8'
 
-services:
-  jenkins:
-    build:
-      context: .
-      dockerfile: docker/jenkins/Dockerfile
-    container_name: jenkins
-    user: root
-    ports:
-      - "8080:8080"
-      - "50000:50000"
-    volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - DOCKER_HOST=unix:///var/run/docker.sock
-
 volumes:
-  jenkins_home:
+  gradle_cache:
+
+services:
+  autotests:
+#    image: mcr.microsoft.com/playwright/java:v1.59.0-jammy
+    # Или сборка из Dockerfile:
+    build: .
+    volumes:
+      - ./src:/app/src
+      - ./reports:/app/build/reports
+      - gradle_cache:/root/.gradle/caches
+    environment:
+      - HEADLESS=true
+      - TEST_ENV=staging
+    working_dir: /app
+#    command: [ "sh", "-c", "xvfb-run -a .\gradlew test --no-daemon" ]
+    shm_size: 2gb
+    init: true
