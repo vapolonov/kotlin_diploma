@@ -34,10 +34,14 @@ class Extensions {
       return this.getByTestId(target)
     }
 
+//    fun String.toMoney(): Double {
+//      val normalized = replace(",", ".")
+//        .replace(Regex("[^\\d.]"), "")
+//      return normalized.toDouble()
+//    }
+
     fun String.toMoney(): Double {
-      val normalized = replace(",", ".")
-        .replace(Regex("[^\\d.]"), "")
-      return normalized.toDouble()
+      return this.filter { it.isDigit() }.toDouble() / 100F
     }
 
     fun String.toDigits(): Int {
