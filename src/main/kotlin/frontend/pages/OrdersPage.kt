@@ -1,7 +1,7 @@
 package frontend.pages
 
-import general.base.AbsBasePage
+import general.base.BasePage
 
-class OrdersPage : AbsBasePage<OrdersPage>(){
+class OrdersPage : BasePage<OrdersPage>(){
   override fun endpoint() = "/orders"
 }

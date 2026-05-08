@@ -29,17 +29,17 @@ class DBTest : Controllers() {
       .authPopup()
       .fillLoginForm(apiUser.email, "random")
       .submitLogin()
-    MainPage().header().checkAvatar()
+    val isAvatarExists = MainPage().header().checkAvatar()
 
     val dbUser = JDBCHelper().getUserByEmail(apiUser.email)
 
     dbUser?.id shouldBe apiUser.id
     dbUser?.username shouldBe apiUser.username
-
+    isAvatarExists shouldBe true
   }
 
   @Test
-  @DisplayName("Проверка создания пользователя в базе данных UI-API-DB")
+  @DisplayName("Проверка создания пользователя в базе данных UI-DB-API")
   fun userShouldCreatedInDatabase2() {
     val email = "${randomEmailPrefix()}@autotest.com"
     val username = randomUsername()
@@ -53,14 +53,13 @@ class DBTest : Controllers() {
       )
       .submitCreateUser()
 
-    MainPage().header().checkAvatar()
+    val isAvatarExists = MainPage().header().checkAvatar()
+    isAvatarExists shouldBe true
 
     val dbUser = JDBCHelper().getUserByEmail(email)
     dbUser?.username shouldBe username
 
     val apiUser = users.getAllUsers().getAsObject()
-//    val apiUser = users.getUserById(id = dbUser?.id ?: 1).getAsObject()
-
     apiUser.firstOrNull { it.email == email }?.username shouldBe dbUser?.username
   }
 }

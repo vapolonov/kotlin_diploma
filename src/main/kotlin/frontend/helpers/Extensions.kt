@@ -1,6 +1,7 @@
 package frontend.helpers
 
 import com.microsoft.playwright.Locator
+import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.WaitForSelectorState
 
 class Extensions {
@@ -15,6 +16,22 @@ class Extensions {
       this.waitFor(
         Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE)
       )
+    }
+
+    fun Locator.findByGroupId(target: String): Locator {
+      return this.locator("[data-test-group='$target']")
+    }
+
+    fun Page.findByGroupId(target: String): Locator {
+      return this.locator("[data-test-group='$target']")
+    }
+
+    fun Locator.findByTestId(target: String): Locator {
+      return this.getByTestId(target)
+    }
+
+    fun Page.findByTestId(target: String): Locator {
+      return this.getByTestId(target)
     }
 
     fun String.toMoney(): Double {

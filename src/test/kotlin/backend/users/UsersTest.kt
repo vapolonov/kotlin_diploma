@@ -14,17 +14,19 @@ import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.comparables.shouldBeGreaterThan
 import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
+import io.qameta.allure.Story
 import net.datafaker.Faker
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 
 @Tag("API")
+@Story("Тесты на создание пользователя по API")
 class UsersTest : Controllers() {
   private val testData = Faker()
 
   @Test
-  @DisplayName("Create and delete user")
+  @DisplayName("Создание и удаление пользователя")
   fun testCreateAndDeleteUser() {
     val username = testData.credentials().username()
     val email = testData.internet().emailAddress()
@@ -41,7 +43,7 @@ class UsersTest : Controllers() {
   }
 
   @Test
-  @DisplayName("Create new user with empty password")
+  @DisplayName("Создание нового пользователя с пустым паролем")
   fun testCreateUserWithoutPassword() {
     val username = testData.credentials().username()
     val email = testData.internet().emailAddress()
@@ -49,14 +51,10 @@ class UsersTest : Controllers() {
     runCatching {
       users.createUser(CreateUserRequest(username, email, " ")).getErrorAsObject<ErrorResponse>()
     }.isFailure.shouldBeTrue()
-
-    // val response = users.createUser(CreateUserRequest(username, email, " ")).getErrorAsObject<ErrorResponse>()
-    // response.code shouldBe 400
-    // response.reason shouldBe "User details cannot be null or blank"
   }
 
   @Test
-  @DisplayName("Create user with valid data")
+  @DisplayName("Создание пользователя с валидными данными")
   fun testCreateUserWithValidData() {
     val user = users.createUser(defaultUser).getAsObject()
     val expectedUser = users.getUserById(id = user.id)
@@ -65,7 +63,7 @@ class UsersTest : Controllers() {
   }
 
   @Test
-  @DisplayName("Update user")
+  @DisplayName("Обновление данных пользователя")
   fun testUpdateUser() {
     val user = users.createUser(defaultUser).getAsObject()
     val userWithPhone = users.updateUserById(
@@ -77,7 +75,7 @@ class UsersTest : Controllers() {
   }
 
   @Test
-  @DisplayName("Update full user model with valid data")
+  @DisplayName("Обновление всех данных пользователя")
   fun testUpdateFullUser() {
     val user = users.createUser(defaultUser).getAsObject()
     val updateRequest = UpdateUserRequest(
@@ -95,7 +93,7 @@ class UsersTest : Controllers() {
   }
 
   @Test
-  @DisplayName("Update partial user model with invalid data")
+  @DisplayName("Частичное обновление данных пользователя")
   fun testUpdatePartialUser() {
     val user = users.createUser(defaultUser).getAsObject()
 
@@ -108,7 +106,7 @@ class UsersTest : Controllers() {
   }
 
   @Test
-  @DisplayName("Get requested user from all users")
+  @DisplayName("Получить требуемого пользователя из всех пользователей")
   fun testGetRequestedUsers() {
     val user = users.createUser(defaultUser).getAsObject()
     val allUsers = users.getAllUsers().getAsObject()

@@ -5,12 +5,14 @@ import frontend.components.list.ProductItem
 import frontend.pages.MainPage
 import general.jupiter.annotations.UITest
 import io.kotest.matchers.equality.shouldBeEqualToDifferentTypeIgnoringFields
+import io.qameta.allure.Story
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 
 @UITest
 @Tag("UI")
+@Story("Тесты на корзину товаров")
 class CartTest {
 
   @Test

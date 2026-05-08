@@ -6,17 +6,15 @@ import com.microsoft.playwright.options.LoadState
 import com.microsoft.playwright.options.WaitForSelectorState
 import general.browser.PageManager
 
-abstract class AbsBasePage<T : AbsBasePage<T>> {
+abstract class BasePage<T : BasePage<T>> {
 
   protected val page: Page = PageManager.get()
-
-  // Переопределяется в наследниках
   protected open fun endpoint(): String = ""
 
   @Suppress("UNCHECKED_CAST")
   fun open(): T {
     page.navigate(endpoint())
-    page.waitForLoadState(LoadState.DOMCONTENTLOADED)
+    page.waitForLoadState()
     return this as T
   }
 

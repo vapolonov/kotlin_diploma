@@ -6,12 +6,14 @@ import general.jupiter.annotations.UITest
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
+import io.qameta.allure.Story
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 
 @UITest
 @Tag("UI")
+@Story("Тесты на страницу товаров")
 class ProductsTest {
 
   @Test
@@ -24,7 +26,7 @@ class ProductsTest {
     val title = ProductsPage()
       .getTitle()
 
-    title shouldBe "All Product"
+    title shouldBe "All Products"
   }
 
   @Test

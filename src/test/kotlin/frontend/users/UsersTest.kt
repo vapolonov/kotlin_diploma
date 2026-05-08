@@ -1,9 +1,10 @@
-package frontend.auth
+package frontend.users
 
 import backend.helpers.Utils.Companion.randomEmailPrefix
 import frontend.pages.MainPage
 import general.jupiter.annotations.UITest
 import io.kotest.matchers.shouldBe
+import io.qameta.allure.Story
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -12,7 +13,8 @@ import org.junit.jupiter.params.provider.CsvSource
 
 @UITest
 @Tag("UI")
-class AuthorizationTest {
+@Story("Тесты на создание и авторизацию пользователя")
+class UsersTest {
 
   @ParameterizedTest
   @CsvSource(
@@ -40,7 +42,8 @@ class AuthorizationTest {
       .authPopup()
       .fillLoginForm("admin@test.com", "QWE123qwe")
       .submitLogin()
-    MainPage().header().checkAvatar()
+    val isAvatarExists = MainPage().header().checkAvatar()
+    isAvatarExists shouldBe true
   }
 
   @Test
@@ -56,7 +59,8 @@ class AuthorizationTest {
       )
       .submitCreateUser()
 
-    MainPage().header().checkAvatar()
+    val isAvatarExists = MainPage().header().checkAvatar()
+    isAvatarExists shouldBe true
   }
 
   @Test

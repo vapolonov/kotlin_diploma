@@ -9,12 +9,14 @@ import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.doubles.shouldBeGreaterThanOrEqual
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
+import io.qameta.allure.Story
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import kotlin.collections.map
 
 @Tag("API")
+@Story("Тесты на заведение товара по API")
 class CreateProductTest : Controllers() {
 
   @Test
@@ -70,9 +72,5 @@ class CreateProductTest : Controllers() {
     runCatching {
       products.createProduct(body = product).getErrorAsObject<ErrorResponse>()
     }.isFailure.shouldBeTrue()
-
-//    val exception = products.createProduct(body = product).getErrorAsObject<ErrorResponse>()
-//    exception.code shouldBe 400
-//    exception.reason shouldBe "price must be greater than 10"
   }
 }

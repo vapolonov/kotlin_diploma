@@ -9,25 +9,11 @@ import org.junit.jupiter.api.extension.AfterTestExecutionCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.TestWatcher
 import java.io.File
-import java.util.*
 
 class AllureExtension : TestWatcher, AfterTestExecutionCallback, AfterEachCallback {
 
-  override fun testSuccessful(context: ExtensionContext) {
-    println("Test successful: - ${context.displayName}")
-  }
-
-  override fun testDisabled(context: ExtensionContext, reason: Optional<String>) {
-    println("Test disabled: ${context.displayName}, reason: $reason")
-  }
-
-  override fun testFailed(context: ExtensionContext, cause: Throwable?) {
-    println("Test failed: ${context.displayName}")
-  }
-
   override fun afterTestExecution(context: ExtensionContext) {
     if (context.executionException.isPresent) {
-      // Screenshot
       val page = PageManager.get()
       runCatching {
         attachScreenshot(page)
@@ -38,7 +24,6 @@ class AllureExtension : TestWatcher, AfterTestExecutionCallback, AfterEachCallba
   }
 
   override fun afterEach(context: ExtensionContext) {
-    // Trace
     if (context.executionException.isPresent) {
       val browserContext = PageManager.getContext()
       val testName = context.displayName

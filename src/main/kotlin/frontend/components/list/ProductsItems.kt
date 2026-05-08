@@ -2,24 +2,24 @@ package frontend.components.list
 
 import com.microsoft.playwright.Locator
 import com.microsoft.playwright.Page
+import frontend.helpers.Extensions.Companion.findByGroupId
 import frontend.helpers.Extensions.Companion.toMoney
-import frontend.helpers.Wrappers.Companion.getByTestGroupId
 import general.browser.PageManager
 
 class ProductsItems {
   private val page: Page = PageManager.get()
-  private val listProducts get() = page.locator(getByTestGroupId("product-card"))
+  private val listProducts get() = page.findByGroupId("product-card")
 
   fun getItems(): List<ProductItem> {
     return listProducts.all()
       .map { ProductItem(
-        image = it.locator(getByTestGroupId("product-card-image")),
-        name = it.locator(getByTestGroupId("product-card-name")).textContent(),
-        description = it.locator(getByTestGroupId("product-card-description")).textContent(),
-        price = it.locator(getByTestGroupId("product-card-price")).textContent().toMoney(),
-        btnIncrement = it.locator(getByTestGroupId("product-card-increment")),
-        btnDecrement = it.locator(getByTestGroupId("product-card-decrement")),
-        quantity = it.locator(getByTestGroupId("product-card-qty")).textContent().toInt(),
+        image = it.findByGroupId("product-card-image"),
+        name = it.findByGroupId("product-card-name").textContent(),
+        description = it.findByGroupId("product-card-description").textContent(),
+        price = it.findByGroupId("product-card-price").textContent().toMoney(),
+        btnIncrement = it.findByGroupId("product-card-increment"),
+        btnDecrement = it.findByGroupId("product-card-decrement"),
+        quantity = it.findByGroupId("product-card-qty").textContent().toInt(),
       ) }
   }
 }

@@ -1,17 +1,18 @@
 package frontend.components
 
 import com.microsoft.playwright.Locator
+import frontend.helpers.Extensions.Companion.findByTestId
 import general.browser.PageManager
 import io.qameta.allure.Step
 
-class AuthPopup : AbsBaseComponent<AuthPopup>(
+class AuthPopup : BaseComponent<AuthPopup>(
   PageManager.get().locator(".dialog")
 ){
 
-  private val emailInput: Locator get() = root.getByTestId("login-email").locator("input")
-  private val passwordInput: Locator get() = root.getByTestId("login-password").locator("input")
-  private val loginBtn: Locator get() = root.getByTestId("login-submit")
-  private val txtError: Locator get() = root.getByTestId("login-error")
+  private val emailInput: Locator get() = root.findByTestId("login-email").locator("input")
+  private val passwordInput: Locator get() = root.findByTestId("login-password").locator("input")
+  private val loginBtn: Locator get() = root.findByTestId("login-submit")
+  private val txtError: Locator get() = root.findByTestId("login-error")
 
   @Step("Заполнить форму Login")
   fun fillLoginForm(email: String, pass: String): AuthPopup {
@@ -28,7 +29,6 @@ class AuthPopup : AbsBaseComponent<AuthPopup>(
 
   @Step("Получить текст ошибки")
   fun getErrorText(): String {
-    txtError.isVisible
     return txtError.textContent()
   }
 }

@@ -6,20 +6,16 @@ import frontend.components.CreateUserPopup
 import frontend.components.Header
 import frontend.components.list.ProductItem
 import frontend.components.list.ProductsItems
-import frontend.helpers.Extensions.Companion.shouldHaveSizeGreaterThan
-import frontend.helpers.Wrappers.Companion.getByTestGroupId
-import general.base.AbsBasePage
-import io.kotest.matchers.ints.shouldBeGreaterThan
-import io.kotest.matchers.shouldBe
+import frontend.helpers.Extensions.Companion.findByTestId
+import general.base.BasePage
 import io.qameta.allure.Step
 
-class MainPage : AbsBasePage<MainPage>() {
+class MainPage : BasePage<MainPage>() {
 
   override fun endpoint() = "/"
-  private val mainTitle: Locator = page.getByTestId("main-image-text")
-  private val joinBtn: Locator get() = page.getByTestId("nav-link-auth")
-  private val loginLink: Locator get() = page.getByTestId("create-login")
-  private val listPopularProducts: Locator get() = page.locator(getByTestGroupId("product-card"))
+  private val mainTitle: Locator = page.findByTestId("main-image-text")
+  private val joinBtn: Locator get() = page.findByTestId("nav-link-auth")
+  private val loginLink: Locator get() = page.findByTestId("create-login")
 
   fun checkPageLoaded(): MainPage {
     waitForVisible(mainTitle)
@@ -28,14 +24,7 @@ class MainPage : AbsBasePage<MainPage>() {
 
   @Step("Получить список популярных товаров")
   fun getPopularProducts(): List<ProductItem> {
-    listPopularProducts.count() shouldBeGreaterThan 0
     return ProductsItems().getItems()
-  }
-
-  @Step("Проверить количество популярных товаров на главной")
-  fun checkNumberOfPopularProducts(): MainPage {
-    listPopularProducts.count() shouldBeGreaterThan 0
-    return this
   }
 
   @Step("Перейти к компоненту Header")

@@ -4,32 +4,20 @@ import backend.api.extensions.Extensions.Companion.getAsObject
 import backend.controllers.Controllers
 import backend.helpers.AuthorizationHelper
 import backend.helpers.GarbageCollector
-import backend.helpers.ProductsHelper
-import com.microsoft.playwright.Page
-import com.microsoft.playwright.Tracing
 import database.JDBCHelper
-import general.browser.PageManager
 import general.config.Config
 import io.kotest.matchers.ints.shouldBeGreaterThan
-import io.kotest.matchers.shouldBe
-import io.qameta.allure.Attachment
-import org.junit.jupiter.api.extension.AfterEachCallback
-import org.junit.jupiter.api.extension.ExtensionContext
-import org.junit.jupiter.api.extension.TestWatcher
 import org.junit.platform.engine.TestExecutionResult
 import org.junit.platform.launcher.TestExecutionListener
 import org.junit.platform.launcher.TestIdentifier
 import org.junit.platform.launcher.TestPlan
-import java.io.File
 
 class TestListener : Controllers(), TestExecutionListener {
   val authHelper = AuthorizationHelper()
-  val productsHelper = ProductsHelper()
 
   override fun testPlanExecutionStarted(testPlan: TestPlan) {
     println("<-----Starting Test Plan execution----->")
     println("Init Configurations").also { Config.get }
-//    productsHelper.createProducts(5).sortedBy { it.name }
   }
 
   override fun executionSkipped(testIdentifier: TestIdentifier, reason: String) {
@@ -42,18 +30,22 @@ class TestListener : Controllers(), TestExecutionListener {
 
   override fun testPlanExecutionFinished(testPlan: TestPlan) {
     println("<-----Garbage Collector----->")
+
     GarbageCollector.orders.forEach { id ->
       val deletedOrders = JDBCHelper().deleteOrderById(id).also { println("Deleted order: $id") }
       deletedOrders shouldBeGreaterThan 0
     }
+
     GarbageCollector.users.forEach { id ->
       users.deleteUserById(authHelper.getAdminToken(), id = id).also { println("Deleted User: $id") }
     }
+
     users.getAllUsers(token = authHelper.getAdminToken(), offset = 1, limit = 50).getAsObject().forEach { user ->
       if (user.email.endsWith("@autotest.com")) {
         users.deleteUserById(authHelper.getAdminToken(), id = user.id).also { println("Deleted User: ${user.email}") }
       }
     }
+
     GarbageCollector.products.forEach { id ->
       products.deleteProductById(authHelper.getAdminToken(), id = id).also { println("Deleted product: $id") }
     }
